@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-#===================================================
+# ===================================================
 from config import Log
 from config import Constant
-#---------------------------------------------------
+# ---------------------------------------------------
 import qrcode
 import re
 import os
@@ -17,7 +17,9 @@ import cPickle as pickle
 import traceback
 import time
 import hashlib
-#===================================================
+
+
+# ===================================================
 
 
 def _decode_data(data):
@@ -76,7 +78,7 @@ def print_qr(mat):
     for i in mat:
         BLACK = Constant.QRCODE_BLACK
         WHITE = Constant.QRCODE_WHITE
-        echo(''.join([BLACK if j else WHITE for j in i])+'\n')
+        echo(''.join([BLACK if j else WHITE for j in i]) + '\n')
 
 
 def echo(str):
@@ -139,7 +141,7 @@ def post(url, params, jsonfmt=True):
     @param      jsonfmt  Bool, whether is json format
     @return     http response
     """
-    Log.debug('POST -> '+url)
+    Log.debug('POST -> ' + url)
     Log.debug(params)
     if jsonfmt:
         request = urllib2.Request(url=url, data=json.dumps(params, ensure_ascii=False).encode('utf8'))
@@ -208,6 +210,7 @@ def save_file(filename, data, dirName):
     if not os.path.exists(dirName):
         os.makedirs(dirName)
     fn = os.path.join(dirName, filename)
+    fn = os.path.abspath(filename)
     with open(fn, 'wb') as f:
         f.write(data)
     return fn
@@ -227,7 +230,7 @@ def save_json(filename, data, dirName, mode='w+'):
         os.makedirs(dirName)
     fn = os.path.join(dirName, filename)
     with open(fn, mode) as f:
-        f.write(json.dumps(data, indent=4)+'\n')
+        f.write(json.dumps(data, indent=4) + '\n')
     return fn
 
 
@@ -316,6 +319,7 @@ def trans_emoji(text):
     @param      text  String
     @return     emoji unicode
     """
+
     def _emoji(matched):
         hex = matched.group(1)
         return ('\\U%08x' % int(hex, 16)).decode('unicode-escape').encode('utf-8')
@@ -361,5 +365,4 @@ def auto_reload(mod):
 
 def split_array(arr, n):
     for i in xrange(0, len(arr), n):
-        yield arr[i:i+n]
-
+        yield arr[i:i + n]
